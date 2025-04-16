@@ -26,7 +26,8 @@ class Particle:
         self.x_vel = x_vel
         self.y_vel = y_vel
         self.mass = mass
-        self.trajectory = []
+        self.trajectory = np.empty((0, 2), dtype=np.float32)
+        self.buffer = []
     
     def draw_particle(self):
         pygame.draw.circle(screen, (0, 255, 255), (self.x_pos, self.y_pos), PARTCLE_RADIUS)
@@ -95,13 +96,21 @@ def main():
             if (part.x_pos > WIDTH + PARTCLE_RADIUS) or (part.x_pos < -PARTCLE_RADIUS) or (part.y_pos > HEIGHT+PARTCLE_RADIUS) or (part.y_pos < -PARTCLE_RADIUS) or (in_black_hole):
                 particles.remove(part)
                 print("particle deleted")
-            part.trajectory.append((int(part.x_pos), int(part.y_pos)))
-            if len(part.trajectory) > 1:
-                pygame.draw.lines(screen, "blue", False, part.trajectory)
-            if len(part.trajectory) > 500:
-                part.trajectory.pop(0)
+                
+            # Print trajectory line with numpy array (for more memory efficiency)
+            part.buffer.append([part.x_pos, part.y_pos])
+            if len(part.buffer) >= 100:
+                new_points = np.array(part.buffer, dtype=np.float32)
+                part.trajectory = np.vstack((part.trajectory, new_points))
+                part.buffer.clear()
+            
+            combined_points = part.trajectory
+            if part.buffer:
+                combined_points = np.vstack((combined_points, np.array(part.buffer, dtype=np.float32)))
+            if len(combined_points) > 1:
+                pygame.draw.lines(screen, "blue", False, combined_points.tolist())
+            
             part.draw_particle()
-        
         draw_black_hole()
         pygame.display.update()
     pygame.quit()
