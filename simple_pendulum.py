@@ -26,8 +26,6 @@ class Weight:
         self.angle = INITIAL_ANGLE
         self.angle_vel = 0
         self.angle_acc = 0
-        self.x_pos = STRING_DISTANCE * math.sin(INITIAL_ANGLE) + (WIDTH/2)
-        self.y_pos = STRING_DISTANCE * math.cos(INITIAL_ANGLE) + 100
         self.radius = WEIGHT_RADIUS
 
     def draw_scheme(self):
@@ -81,8 +79,8 @@ def main():
                 else:
                     weight.angle = 3*math.pi/2
               
-        weight.angular_calc()
         weight.draw_scheme()
+        weight.angular_calc()
         draw_static_point()
         pygame.display.update()
     pygame.quit()
