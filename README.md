@@ -36,7 +36,7 @@ To run these simulations, you'll need to have Python 3.x installed on your syste
 
 1.  Clone this repository to your local machine:
     ```bash
-    git clone [https://github.com/BudaBecker/python-physics.git](https://github.com/BudaBecker/python-physics.git)
+    git clone https://github.com/BudaBecker/python-physics.git
     cd python-physics
     ```
 2.  Navigate to the directory of the specific simulation you want to run (e.g., `bouncy_balls`).
