@@ -150,7 +150,7 @@ def main():
                     if len(balls) > 0:
                         balls.pop(randint(0, len(balls)-1))
             elif event.type == pygame.KEYDOWN:
-                if pygame.key.name(event.key):
+                if 'g' ==pygame.key.name(event.key):
                     global GRAVITY
                     if GRAVITY == 0:
                         GRAVITY = 0.5
