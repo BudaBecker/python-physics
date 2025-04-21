@@ -24,8 +24,6 @@ WEIGHT_1_RADIUS = 15
 WEIGHT_2_RADIUS = 15
 STR_D_1 = 7 + WEIGHT_1_RADIUS + L_1
 STR_D_2 = 2*WEIGHT_2_RADIUS + L_2
-COLOR_1 = (255, 20, 20)
-COLOR_2 = (20, 255, 90)
 BG_COLOR = (50, 50, 50)
 
 # Class Pendulum
@@ -65,7 +63,6 @@ class Pendulum:
         num4 = (self.angle_vel_2**2) * STR_D_2 + (self.angle_vel_1**2) * STR_D_1 * math.cos(self.angle_1 - self.angle_2)
         den = STR_D_1 * (2*self.mass_1 + self.mass_2 - self.mass_2 * math.cos(2*self.angle_1 - 2*self.angle_2))
         self.angle_acc_1 = (num1 + num2 + num3 * num4) / den
-
         
         # For θ2''
         num1 = 2 * math.sin(self.angle_1 - self.angle_2)
@@ -87,10 +84,10 @@ class Pendulum:
 def create_pendulums():
     pend_list = []
     pend_list.append(
-        Pendulum(color= COLOR_1, angle_init_1= 90, angle_init_2= 90)   #angle_init in degrees.
+        Pendulum(color= (255, 20, 20), angle_init_1= 90, angle_init_2= 90)   #angle_init in degrees.
     )
     pend_list.append(
-        Pendulum(color = COLOR_2, angle_init_1= 90, angle_init_2= 89)   #angle_init in degrees.
+        Pendulum(color = (20, 255, 90), angle_init_1= 90, angle_init_2= 89)   #angle_init in degrees.
     )
     pend_list.append(
         Pendulum(color = (0, 136, 255), angle_init_1= 90, angle_init_2= 88)   #angle_init in degrees.
@@ -116,6 +113,7 @@ def main():
         timer.tick(FPS)
         screen.fill(BG_COLOR)
         
+        # Pygame events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -123,10 +121,12 @@ def main():
                 if 'space' == pygame.key.name(event.key):
                     GRAVITY = temp_g
         
+        # Pendulum iterations
         for pendulum in pendulums:
             pendulum.draw_scheme()
             pendulum.check_angles()
-        
+
+            # Drawing pendulumm trajectory
             pendulum.buffer.append([pendulum.x_pos_2, pendulum.y_pos_2])
             if len(pendulum.buffer) >= 100:
                 new_points = np.array(pendulum.buffer, dtype=np.float32)
@@ -138,15 +138,16 @@ def main():
                 combined_points = np.vstack((combined_points, np.array(pendulum.buffer, dtype=np.float32)))
             if len(combined_points) > 1:
                 
+                # Add a glowing effect on the trajectory line, but escalates quickly... Don't recomend for 30+ sec simulations!!
                 # for i in range(5, 0, -1):
-                #     alpha = int(255 * (i / 5) * 0.2)  # decrease alpha
+                #     alpha = int(255 * (i / 5) * 0.2)
                 #     glow_color = pygame.Color(pendulum.color)
                 #     glow_color.a = alpha
                 #     glow_surface = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
                 #     pygame.draw.lines(glow_surface, glow_color, False, combined_points.tolist(), i * 2)
                 #     screen.blit(glow_surface, (0, 0))
 
-                pygame.draw.lines(screen, pendulum.color, False, combined_points.tolist(), 2)
+                pygame.draw.lines(screen, pendulum.color, False, combined_points.tolist(), 3)
         
         if GRAVITY == 0:
             instructions = myfont.render("Press 'space' to start", 25, (255,255,255))
