@@ -18,19 +18,9 @@ This repository currently showcases simulations of:
 * **Slingshot Effect:** Visualizes the gravitational slingshot effect.
 * **Simple Pendulum:** Implements a pendulum with or without air friction.
 * **Double Pendulum:** Visualy demonstrates the chaos theory with pendulums.
+* **Spring Pendulum:** Implements a simple elastic pendulum.
 
 ## Getting Started
-
-To run these simulations, you'll need to have Python 3.x installed on your system, along with the following libraries:
-
-* **Pygame:** For creating the graphical interface and handling events.
-    ```bash
-    pip install pygame
-    ```
-* **NumPy:** For efficient numerical operations, especially with vectors and arrays.
-    ```bash
-    pip install numpy
-    ```
 
 **Steps to run a simulation:**
 
@@ -39,7 +29,12 @@ To run these simulations, you'll need to have Python 3.x installed on your syste
     git clone https://github.com/BudaBecker/python-physics.git
     cd python-physics
     ```
+2.  Install the requirements:
+    ```bash
+    pip install -r requirements.txt
+    ```
 2.  Navigate to the directory of the specific simulation you want to run (e.g., `bouncy_balls`).
+
 3.  Execute the main Python script:
     ```bash
     python bouncy_balls.py
