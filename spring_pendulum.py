@@ -13,7 +13,7 @@ FPS = 60
 GRAVITY = 0.5
 AIR_FRICTION = 1
 BG_COLOR = (50, 50, 50)
-STATIC_POINT = (WIDTH/2, 50)
+STATIC_POINT = (WIDTH/2, 150)
 
 # Weight variables
 WEIGHT_COLOR = (255, 0, 0)
@@ -23,7 +23,8 @@ WEIGHT_MASS = 15
 # Spring variables
 SPRING_COLOR = (255, 255, 255)
 INITIAL_ANGLE = 0
-L0 = 500
+L0 = 400
+N_COILS = 10
 SPRING_K = 0.2
 
 # Weight class
@@ -60,8 +61,8 @@ class Weight:
         self.angle_vel *= AIR_FRICTION
         self.angle += self.angle_vel
 
-        self.x_pos = WIDTH / 2 + self.r * math.sin(self.angle)
-        self.y_pos = 100 + self.r * math.cos(self.angle)
+        self.x_pos = STATIC_POINT[0] + self.r * math.sin(self.angle)
+        self.y_pos = STATIC_POINT[1] + self.r * math.cos(self.angle)
 
 # Spring Class
 class Spring:
@@ -73,14 +74,17 @@ class Spring:
         self.s_width = s_width
     
     def draw_spring(self, init_pos: tuple, end_pos: tuple):
+        # Using pygame vectors
         init = pygame.Vector2(init_pos)
         end  = pygame.Vector2(end_pos)
         diff = end - init
         total_length = diff.length()
+        # Avoiding errors
         if total_length <= 2 * self.base or self.n_spike <= 0:
             pygame.draw.line(screen, self.color, init, end, self.thickness)
             return
 
+        # Setting unit and normal vectors
         direction   = diff.normalize()
         perpendicular = direction.rotate(90)
         wave_length = total_length - 2 * self.base
@@ -90,6 +94,7 @@ class Spring:
         points = []
         points.append(init)
         points.append(init + direction * self.base)
+        # Zigzag points
         for i in range(1, self.n_spike * 2):
             t = self.base + i * half_seg
             pt_on_axis = init + direction * t
@@ -112,7 +117,7 @@ def main():
     running = True
     weight = Weight()
     spring = Spring(
-        n_spike= 20,
+        n_spike= N_COILS,
         base= 30,
         color= SPRING_COLOR,
         thickness= 3,
@@ -129,13 +134,8 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                global GRAVITY
-                temp = GRAVITY
-                GRAVITY = 0
-                weight.angle_vel = 0
                 active = True
             if event.type == pygame.MOUSEBUTTONUP:
-                GRAVITY = temp
                 active = False
         if active:
             weight.angle_acc, weight.angle_vel, weight.r_acc, weight.r_vel = 0, 0, 0, 0
