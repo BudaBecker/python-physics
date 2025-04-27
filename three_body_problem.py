@@ -37,7 +37,7 @@ class Body:
         # init vel and acc = Vect(0)
         self.acc = np.zeros(2, dtype=float)
         self.vel = np.zeros(2, dtype=float)
-        self.x_pos, self.y_pos = init_pos
+        self.pos = np.array(init_pos, dtype=float)
         # Colors
         self.tj_color = tj_color
         self.color = color 
@@ -47,10 +47,8 @@ class Body:
         for other in body_list:
             if other is self:
                 continue
-            # self.acc and self.vel already initialized as np.arrays!
-            self_pos = np.array([self.x_pos, self.y_pos], dtype= float)
-            other_pos = np.array([other.x_pos, other.y_pos], dtype= float)
-            diff_vect = self_pos - other_pos
+            
+            diff_vect = self.pos - other.pos
             dist = np.linalg.norm(diff_vect) 
             
             if dist >= BODY_RADIUS*2:
@@ -59,17 +57,14 @@ class Body:
         self.acc = acc
     
     def att_pos(self):
-        prev = np.array([self.x_pos, self.y_pos])
+        prev = self.pos.copy()
         self.vel += self.acc * DT
-        self.x_pos += self.vel[0] * DT
-        self.y_pos += self.vel[1] * DT
-        new = np.array([self.x_pos, self.y_pos])
-        return prev, new
+        self.pos += self.vel * DT
+        return prev
                             
     def draw_body(self):
-        pygame.draw.circle(screen, self.color, (self.x_pos, self.y_pos), BODY_RADIUS)
-        
-        
+        pygame.draw.circle(screen, self.color, self.pos, BODY_RADIUS)
+           
 # Main game loop
 def main():
     bodies_tj = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
@@ -103,8 +98,8 @@ def main():
                     body.dynamic_calculations(bodies)
             for body in bodies:
                 if len(bodies) == 3:
-                    prev, new = body.att_pos()
-                    pygame.draw.line(bodies_tj, body.tj_color, prev, new, width= 2)
+                    prev = body.att_pos()
+                    pygame.draw.line(bodies_tj, body.tj_color, prev, body.pos, width= 2)
                 body.draw_body()
                 
         pygame.display.update()
