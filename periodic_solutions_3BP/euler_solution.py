@@ -55,7 +55,7 @@ class Body:
         # As we're using Euler's solution (center in (0, 0)), we need to re-size the schema to our canvas.
         x = WIDTH/2 + SCALE * self.pos[0]
         y = HEIGHT/2 - SCALE * self.pos[1]
-        pygame.draw.circle(trail, self.color, (x,y), 2)
+        pygame.draw.circle(trail, self.color, (x, y), 2)
         pygame.draw.circle(screen, self.color, (x, y), BODY_RADIUS)
 
 # Main game loop     
