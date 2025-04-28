@@ -7,15 +7,16 @@ WIDTH = 900
 HEIGHT = 800
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 pygame.display.set_caption("Black Hole Slingshot Effect")
+myfont = pygame.font.SysFont("Verdana", 20)
 
 # Global variables
 FPS = 60
-BG_COLOR = (80, 80, 80)
+x = 100; BG_COLOR = (x, x, x)
 BLACK_HOLE_MASS = 1000
 BLACK_HOLE_RADIUS = 70
 PARTICLE_MASS = 5
 PARTCLE_RADIUS = 8
-VELOCITY_SCALE = 100
+VELOCITY_SCALE = 75
 G = 5
 
 # Particle Class
@@ -65,6 +66,10 @@ def main():
     while running:
         timer.tick(FPS)
         screen.fill(BG_COLOR)
+        instructions = myfont.render("click once to create a body, aim, then click again to launch", 1, (0, 0, 0))
+        screen.blit(instructions, (0, 0))
+        instructions = myfont.render("(the launch speed is proportional to the white line)", 1, (0, 0, 0))
+        screen.blit(instructions, (0, 22))
         
         # Pygame events
         mouse_pos = pygame.mouse.get_pos()

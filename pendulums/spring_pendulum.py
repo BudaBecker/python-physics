@@ -7,6 +7,7 @@ WIDTH = 900
 HEIGHT = 800
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 pygame.display.set_caption("Spring Pendulum")
+myfont = pygame.font.SysFont("Verdana", 20)
 
 # Global variables
 FPS = 60
@@ -127,6 +128,8 @@ def main():
     while running:
         timer.tick(FPS)
         screen.fill(BG_COLOR)
+        instructions = myfont.render("click/drag at any point on the screen to set a new weight position!", 1, (255, 255, 255))
+        screen.blit(instructions, (0, 0))
         
         # Pygame Event
         mouse_pos = pygame.mouse.get_pos()

@@ -147,6 +147,8 @@ def main():
     weight_trail = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
     timer = pygame.time.Clock()
     running = True
+    
+    # You can mess with springs and weight values for fun simulations! :)
     spring1 = Spring(n_spike= 15, base= W1_RADIUS + 3, color= (255, 255, 255), thickness= 2, s_width= 10)
     spring2 = Spring(n_spike= 15, base= W2_RADIUS + 3, color= (255, 255, 255), thickness= 2, s_width= 10)
     weights = Weights(
@@ -163,6 +165,7 @@ def main():
         k2= 0.2,
         l2 = 250,
     )
+    
     while running:
         timer.tick(FPS)
         screen.fill(BG_COLOR)

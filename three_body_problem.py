@@ -7,6 +7,7 @@ WIDTH = 900
 HEIGHT = 800
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 pygame.display.set_caption("The Chaotic Three-Body Problem")
+myfont = pygame.font.SysFont("Verdana", 30)
 
 # Global variables
 FPS = 60
@@ -92,6 +93,10 @@ def main():
         screen.blit(bodies_tj, (0, 0))
         screen.blit(lines, (0,0))
         lines.fill((0, 0, 0, 0))
+        
+        if len(bodies) < 3:
+            instructions = myfont.render("click 3 random places on the screen", 1, (0, 0, 0))
+            screen.blit(instructions, (170, 20))
         
         # Pygame events
         mouse_pos = pygame.mouse.get_pos()
