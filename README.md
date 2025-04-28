@@ -17,8 +17,8 @@ This repository currently showcases simulations of:
 * **Bouncy Balls:** Demonstrates the trajectory of objects under gravity and elastic collisions, including adjustable launch angles and velocities.
 * **Slingshot Effect:** Visualizes the gravitational slingshot effect.
 * **Simple Pendulum:** Implements a pendulum with or without air friction.
-* **Double Pendulum:** Visualy demonstrates the chaos theory with pendulums.
 * **Spring Pendulum:** Implements a simple elastic pendulum.
+* **Double Pendulum/Double Elastic Pendulum:** Visualy demonstrates the chaos theory with double pendulums.
 * **The Three-Body Problem:** Simulates the chaotic motion of three celestial bodies that interact with each other through gravitational forces.
     * Includes a folder (`periodic_solutions_3BP`) with a few periodic solutions.
 
