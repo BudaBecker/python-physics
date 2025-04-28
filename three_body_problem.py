@@ -13,7 +13,7 @@ FPS = 60
 DT = 0.005
 STEPS_PER_FRAME = 100
 x = 120; BG_COLOR = (x, x, x)
-BODY_RADIUS = 7
+BODY_RADIUS = 10
 G = 5
 MASSES = {
     0: 1200,
@@ -64,10 +64,25 @@ class Body:
                             
     def draw_body(self):
         pygame.draw.circle(screen, self.color, self.pos, BODY_RADIUS)
-           
+
+def draw_cm(bodies, lines):
+    b1, b2, b3 = bodies[0], bodies[1], bodies[2]
+    
+    # Triangle's perimeter
+    pygame.draw.line(lines, BLACK + (100,), b1.pos, b2.pos, 2)
+    pygame.draw.line(lines, BLACK + (100,), b1.pos, b3.pos, 2)
+    pygame.draw.line(lines, BLACK + (100,), b3.pos, b2.pos, 2)
+    
+    # Centroid
+    pygame.draw.line(lines, BLACK + (100,), b1.pos, (b2.pos+b3.pos)/2, 2)
+    pygame.draw.line(lines, BLACK + (100,), b2.pos, (b1.pos+b3.pos)/2, 2)
+    pygame.draw.line(lines, BLACK + (100,), b3.pos, (b1.pos+b2.pos)/2, 2)
+    pygame.draw.circle(lines, BLACK + (150,), (b1.pos + b2.pos + b3.pos)/3, 4)
+         
 # Main game loop
 def main():
     bodies_tj = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+    lines = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
     bodies = []
     timer = pygame.time.Clock()
     running = True
@@ -75,6 +90,8 @@ def main():
         timer.tick(FPS)
         screen.fill(BG_COLOR)
         screen.blit(bodies_tj, (0, 0))
+        screen.blit(lines, (0,0))
+        lines.fill((0, 0, 0, 0))
         
         # Pygame events
         mouse_pos = pygame.mouse.get_pos()
@@ -101,7 +118,8 @@ def main():
                     prev = body.att_pos()
                     pygame.draw.line(bodies_tj, body.tj_color, prev, body.pos, width= 2)
                 body.draw_body()
-                
+        if len(bodies) == 3:
+            draw_cm(bodies, lines)
         pygame.display.update()
     pygame.quit()
 if __name__ == "__main__":
