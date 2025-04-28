@@ -19,6 +19,8 @@ This repository currently showcases simulations of:
 * **Simple Pendulum:** Implements a pendulum with or without air friction.
 * **Double Pendulum:** Visualy demonstrates the chaos theory with pendulums.
 * **Spring Pendulum:** Implements a simple elastic pendulum.
+* **The Three-Body Problem:** Simulates the chaotic motion of three celestial bodies that interact with each other through gravitational forces.
+    * Includes a folder (`periodic_solutions_3BP`) with a few periodic solutions.
 
 ## Getting Started
 
