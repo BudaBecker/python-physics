@@ -3,6 +3,7 @@
 ![Python](https://img.shields.io/badge/Python-3.x-blue.svg)
 ![Libraries](https://img.shields.io/badge/Libraries-Math%2C%20NumPy%2C%20Pygame-orange.svg)
 ![Coffee Level](https://img.shields.io/badge/Coffee-A%20Lot-brown.svg)
+![Static Badge](https://img.shields.io/badge/Lines-1500%2B-darkgreen)
 
 ## Overview
 
@@ -21,6 +22,7 @@ This repository currently showcases simulations of:
 * **Double Pendulum/Double Elastic Pendulum:** Visualy demonstrates the chaos theory with double pendulums.
 * **The Three-Body Problem:** Simulates the chaotic motion of three celestial bodies that interact with each other through gravitational forces.
     * Includes a folder (`periodic_solutions_3BP`) with a few periodic solutions.
+* **Pi Colliding Blocks:** This problem illustrates that elastic collisions in classical mechanics are arithmetic in nature, as revealed through this method to compute Pi's digits.
 
 ## Getting Started
 
