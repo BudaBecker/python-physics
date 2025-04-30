@@ -3,7 +3,7 @@
 ![Python](https://img.shields.io/badge/Python-3.x-blue.svg)
 ![Libraries](https://img.shields.io/badge/Libraries-Math%2C%20NumPy%2C%20Pygame-orange.svg)
 ![Coffee Level](https://img.shields.io/badge/Coffee-A%20Lot-brown.svg)
-![Static Badge](https://img.shields.io/badge/Lines-1500%2B-darkgreen)
+![Static Badge](https://img.shields.io/badge/Lines-1800%2B-darkgreen)
 
 ## Overview
 
@@ -24,6 +24,7 @@ This repository currently showcases simulations of:
    * Includes a folder (`periodic_solutions_3BP`) with a few periodic solutions.
 * **Pi Colliding Blocks:** This problem illustrates that elastic collisions in classical mechanics are arithmetic in nature, as revealed through this method to compute Pi's digits.
    * This problem became very famous after 3blue1brown's video.
+* **Raytracing:** Simulates "basic" ray tracing principles.
 
 ## Getting Started
 
