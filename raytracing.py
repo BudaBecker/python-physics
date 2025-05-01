@@ -1,6 +1,7 @@
-# TODOS:
-# 1- Refactor so can add new objects without any complications. (prbl will never happen)
+# TODO:
+# 1- Refactor so can add new objects without any complications (its all hard-coded cuz it was my first try doing it)
 # 2- Change all the raw math to numpy/math functions for easy understanding
+# 3- Add first person view (the coding train challange #146)
 
 import math
 import pygame
