@@ -26,37 +26,40 @@ class Cube:
 
     def get_vertices(self):
         return np.array([
-            [0,0,0], [1,0,0], [1,1,0], [0,1,0],
-            [0,0,1], [1,0,1], [1,1,1], [0,1,1]
+            [-1,-1,-1], [1,-1,-1], [1,1,-1], [-1,1,-1],
+            [-1,-1,1], [1,-1,1], [1,1,1], [-1,1,1]
         ], dtype= float)
 
     def rotate_cube(self):
         Ax, Ay, Az = self.angle
-        
-        # keep cube centered on the screen
-        center = np.array([0.5, 0.5, 0.5], dtype= float)
-        V = self.get_vertices() - center
 
         # https://en.wikipedia.org/wiki/Rotation_matrix
         Rx = np.array([
             [1,       0,        0],
             [0, cos(Ax), -sin(Ax)],
             [0, sin(Ax),  cos(Ax)]
-        ])
+        ], dtype= float)
         Ry = np.array([
             [ cos(Ay), 0, sin(Ay)],
             [       0, 1,       0],
             [-sin(Ay), 0, cos(Ay)]
-        ])
+        ], dtype= float)
         Rz = np.array([
             [cos(Az), -sin(Az), 0],
             [sin(Az),  cos(Az), 0],
             [      0,        0, 1]
-        ])
+        ], dtype= float)
+        
+        # Scale Matrix not working like i want *yet
+        # S = np.array([
+        #     [1.5, 0, 0],
+        #     [0, 1.5, 0],
+        #     [0, 0, 1]
+        # ], dtype= float)
         
         # X @ Y = matrix-multiply X by Y // R.T is the transpose of the matrix R
         R = Rz @ Ry @ Rx
-        self.vertices = (V @ R.T) + center
+        self.vertices = (self.get_vertices() @ R.T)
         
     def draw(self):
         edges = [
@@ -66,16 +69,16 @@ class Cube:
         ]
 
         for i, j in edges:
-            pygame.draw.line(screen, WHITE, 
-                             (self.vertices[i][0]*self.size + (WIDTH-self.size)/2, self.vertices[i][1]*self.size + (HEIGHT-self.size)/2), 
-                             (self.vertices[j][0]*self.size + (WIDTH-self.size)/2, self.vertices[j][1]*self.size + (HEIGHT-self.size)/2),
-                             3)
+            # Rescale and reposition to the center of the screen.
+            pygame.draw.line(screen, WHITE, (self.vertices[i][0]*self.size + WIDTH/2, self.vertices[i][1]*self.size + HEIGHT/2), 
+                                            (self.vertices[j][0]*self.size + WIDTH/2, self.vertices[j][1]*self.size + HEIGHT/2), 3)
         
         for point in self.vertices:
-            pygame.draw.circle(screen, RED, (point[0]*self.size + (WIDTH-self.size)/2, point[1]*self.size + (HEIGHT-self.size)/2), 5)
+            # Rescale and reposition to the center of the screen.
+            pygame.draw.circle(screen, RED, (point[0]*self.size + WIDTH/2, point[1]*self.size + HEIGHT/2), 5)
 
 def display_instruct():
-    instructions = font.render("press             keys to move the cube", 1, WHITE)
+    instructions = font.render("press             keys to move the cube or S to spin.", 1, WHITE)
     arrows = [
         font.render("↑", 1, WHITE),
         font.render("↓", 1, WHITE),
@@ -89,10 +92,10 @@ def display_instruct():
     screen.blit(arrows[3], (65, 10))
     
 def main():
-    cube = Cube(l= CUBE_SIZE)
+    cube = Cube(l= CUBE_SIZE/2)
     timer = pygame.time.Clock()
     running = True
-      
+    spinning = False
     while running:
         pygame.display.set_caption(f"3D Cube, FPS: {int(timer.get_fps())}")
         timer.tick(60)
@@ -103,6 +106,14 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.KEYDOWN:
+                if 's' ==pygame.key.name(event.key):
+                    if not spinning:
+                        spinning = True
+                    else:
+                        spinning = False
+                        
+        # Move if arrows
         keys = pygame.key.get_pressed()
         if keys[pygame.K_UP]:
             cube.angle += [radians(2), 0, 0]
@@ -112,6 +123,9 @@ def main():
             cube.angle += [0, radians(2), 0]
         elif keys[pygame.K_RIGHT]:
             cube.angle += [0, radians(-2), 0]
+        
+        if spinning:
+            cube.angle += [radians(1), radians(1), radians(1)]
         
         # Cube att
         cube.rotate_cube()
