@@ -147,7 +147,7 @@ def main():
         # Cube att
         cube.rotate_cube()
         if projecting:
-            cube.add_perspective_projection(d= 2, camera_distance= 4)
+            cube.add_perspective_projection(d= 2, camera_distance= 3)
         cube.draw()
         
         pygame.display.update()
