@@ -3,6 +3,8 @@
 # 2- Change all the raw math to numpy/math functions for easy understanding
 # 3- Add first person view (the coding train challange #146)
 
+#NOTE: Im working on a update, im making a custom map/grid to add objcs and mirrors :)
+
 import math
 import pygame
 import numpy as np
@@ -11,13 +13,12 @@ import numpy as np
 pygame.init()
 WIDTH, HEIGHT = 1400, 900
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
-pygame.display.set_caption("Basic Raytracing")
 mirror_font = pygame.font.SysFont("monospace", 20, bold= True)
 
 # Global variables
 FPS = 60
 RAY_THICK = 2
-N_RAYS = 1000
+N_RAYS = 1300
 SUN_SIZE = 20
 
 # RGB
@@ -49,7 +50,7 @@ class Light:
         for i in range(self.n_rays):
             angle = 2 * math.pi * i / self.n_rays
             start = (self.sun_pos[0] + math.cos(angle) * self.sun_radius, self.sun_pos[1] + math.sin(angle) * self.sun_radius)
-            end = (self.sun_pos[0] + math.cos(angle) * (self.sun_radius + 1900), self.sun_pos[1] + math.sin(angle) * (self.sun_radius + 1900))
+            end = (math.cos(angle)*1900 + start[0], math.sin(angle)*1900 + start[1])
             end, mirror = self.check_ray(start, end)
             pygame.draw.line(screen, self.ray_color, start, end, RAY_THICK)
 
@@ -57,7 +58,7 @@ class Light:
                 sun_start = start
                 start = end
                 end = self.reflect_ray(sun_start, start, angle)
-                end = self.check_ray_no_mirror(start, end)
+                end = self.check_ray_on_mirror(start, end)
                 pygame.draw.line(screen, self.ray_color, start, end, RAY_THICK)
     
     def reflect_ray(self, sun_start, start, angle):
@@ -80,7 +81,7 @@ class Light:
             return (start[0] + math.cos(angle) * (1900), start[1] + math.sin(angle) * (1900))
         return sun_start
     
-    def check_ray_no_mirror(self, start, end):
+    def check_ray_on_mirror(self, start, end):
         # do NOT look here, go to check_ray(), same here but without the mirror.
         sx, sy = start
         ex, ey = end
@@ -268,6 +269,7 @@ def main():
     clock = pygame.time.Clock()
     light = Light()
     while running:
+        pygame.display.set_caption(f"Basic Raytracing. FPS: {int(clock.get_fps())}")
         clock.tick(FPS)
         screen.fill(BLACK)
         
