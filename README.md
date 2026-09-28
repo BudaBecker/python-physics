@@ -3,7 +3,6 @@
 ![Python](https://img.shields.io/badge/Python-3.x-blue.svg)
 ![Libraries](https://img.shields.io/badge/Libraries-Math%2C%20NumPy%2C%20Pygame-orange.svg)
 ![Coffee Level](https://img.shields.io/badge/Coffee-A%20Lot-brown.svg)
-![Static Badge](https://img.shields.io/badge/Lines-1800%2B-darkgreen)
 
 ## Overview
 
